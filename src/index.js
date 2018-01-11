@@ -65,6 +65,13 @@ class HeatsinkContainer extends React.Component {
 		}
 	}
 	
+	toggleMaterial = (id) => {
+		let shapeInfo = this.state.shapeInfo.slice()
+		let cellInfo = shapeInfo[id]
+		cellInfo.material = 1 - cellInfo.material
+		this.setState({shapeInfo: shapeInfo})	
+	}
+	
 	render() {
 		let diameter = this.props.radius * 2 + 1
 		let rows = []
@@ -80,6 +87,7 @@ class HeatsinkContainer extends React.Component {
 				<p>id: {this.props.id}</p>
 				<HeatsinkShapeGrid
 					rows={rows}
+					toggleMaterial={this.toggleMaterial}
 				/>
 				<button onClick={
 					() => {this.props.deleteHeatsink(this.props.id)}
@@ -103,6 +111,7 @@ class HeatsinkShapeGrid extends React.Component {
 							id={item.id}
 							key={item.id}
 							cells={item.row}
+							toggleMaterial={this.props.toggleMaterial}
 						/>
 					))
 				}
@@ -125,6 +134,7 @@ class HeatsinkShapeRow extends React.Component {
 							id={item.id}
 							key={item.id}
 							material={item.material}
+							toggleMaterial={this.props.toggleMaterial}
 						/>
 					))
 				}
@@ -140,7 +150,9 @@ class HeatsinkShapeCell extends React.Component {
 	
 	render() {
 		return (
-			<button>{this.props.material}</button>
+			<button onClick={
+				() => {this.props.toggleMaterial(this.props.id)}
+			}>{this.props.material}</button>
 		)
 	}
 }
