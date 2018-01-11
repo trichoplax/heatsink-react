@@ -1,0 +1,28 @@
+* {
+	box-sizing: border-box;
+}
+
+.material-row {
+	height: 20px;
+}
+
+.material-cell {
+	width: 20px;
+	height: 20px;
+	border: 1px solid grey;
+	margin: 0;
+	padding: 0;
+}
+
+.insulator {
+	background-color: black;
+}
+
+.conductor {
+	background-color: white;
+}
+
+::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}

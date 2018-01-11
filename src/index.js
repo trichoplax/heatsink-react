@@ -115,6 +115,7 @@ class HeatsinkShapeGrid extends React.Component {
 						/>
 					))
 				}
+				<br />
 			</div>
 		)
 	}
@@ -127,7 +128,7 @@ class HeatsinkShapeRow extends React.Component {
 	
 	render() {
 		return (
-			<div>
+			<div class="material-row">
 				{
 					this.props.cells.map((item) => (
 						<HeatsinkShapeCell
@@ -152,7 +153,7 @@ class HeatsinkShapeCell extends React.Component {
 		return (
 			<button onClick={
 				() => {this.props.toggleMaterial(this.props.id)}
-			}>{this.props.material}</button>
+			} class={"material-cell " + (this.props.material?"conductor":"insulator")}></button>
 		)
 	}
 }
