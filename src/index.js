@@ -38,6 +38,7 @@ class HeatsinkContainerList extends React.Component {
 						<HeatsinkContainer
 							id={item.id}
 							key={item.id}
+							radius={2}
 							deleteHeatsink={this.deleteHeatsink}
 						/>
 					))
@@ -50,29 +51,99 @@ class HeatsinkContainerList extends React.Component {
 class HeatsinkContainer extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			count: 0
+		let diameter = props.radius * 2 + 1
+		let population = diameter * diameter
+		let shapeInfo = []
+		for (let i=0; i<population; i++) {
+			shapeInfo.push({
+				id: i,
+				material: 0
+			})
 		}
-	}
-
-	incrementMe = () => {
-		this.setState({
-			count: this.state.count + 1
-		})
+		this.state = {
+			shapeInfo: shapeInfo
+		}
 	}
 	
 	render() {
+		let diameter = this.props.radius * 2 + 1
+		let rows = []
+		for (let i=0; i<diameter; i++) {
+			rows.push({
+				row: this.state.shapeInfo.slice(i * diameter, (i+1) * diameter),
+				id: i
+			})
+		}
 		return (
 			<div>
 				<h2>A heatsink container</h2>
 				<p>id: {this.props.id}</p>
-				<button onClick={this.incrementMe}>{this.state.count}</button>
-				<button onClick={() => {this.props.deleteHeatsink(this.props.id)}}>Delete</button>
+				<HeatsinkShapeGrid
+					rows={rows}
+				/>
+				<button onClick={
+					() => {this.props.deleteHeatsink(this.props.id)}
+				}>Delete</button>
 			</div>
 		)
 	}
 }
 
+class HeatsinkShapeGrid extends React.Component {
+	constructor(props) {
+		super(props)		
+	}
+	
+	render() {
+		return (
+			<div>
+				{
+					this.props.rows.map((item) => (
+						<HeatsinkShapeRow
+							id={item.id}
+							key={item.id}
+							cells={item.row}
+						/>
+					))
+				}
+			</div>
+		)
+	}
+}
+
+class HeatsinkShapeRow extends React.Component {
+	constructor(props) {
+		super(props)		
+	}
+	
+	render() {
+		return (
+			<div>
+				{
+					this.props.cells.map((item) => (
+						<HeatsinkShapeCell
+							id={item.id}
+							key={item.id}
+							material={item.material}
+						/>
+					))
+				}
+			</div>
+		)
+	}
+}
+
+class HeatsinkShapeCell extends React.Component {
+	constructor(props) {
+		super(props)		
+	}
+	
+	render() {
+		return (
+			<button>{this.props.material}</button>
+		)
+	}
+}
 
 // ========================================
 
